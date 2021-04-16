@@ -1,32 +1,7 @@
-public class VolatileExample {
-
-    public static void main(String[] args) {
-
-        Shared s = new Shared();
-
-        Runnable runnable1 = () -> {
-            for(int i = 1; i <= 10; i++) {
-                s.update1(i, i*2, i*3);
-                System.out.println(s);
-            }
-        };
-
-
-        Thread thread1 = new Thread(runnable1);
-        Thread thread2 = new Thread(runnable1);
-        thread1.start();
-        thread2.start();
-
-
-
-    }
-
-}
-
 class Shared {
+    private volatile int z;
     private int x;
     private int y;
-    private volatile int z;
 
     @Override
     public String toString() {
@@ -56,5 +31,26 @@ class Shared {
         this.x = x;
         this.y = y;
     }
+}
 
+public class VolatileExample {
+
+    public static void main(String[] args) {
+
+        Shared s = new Shared();
+
+        Runnable runnable1 = () -> {
+            for(int i = 1; i <= 10; i++) {
+                s.update1(i, i*2, i*3);
+                System.out.println(s);
+            }
+        };
+
+        Thread thread1 = new Thread(runnable1);
+        Thread thread2 = new Thread(runnable1);
+
+        thread1.start();
+        thread2.start();
+
+    }
 }
